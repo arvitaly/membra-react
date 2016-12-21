@@ -16,6 +16,9 @@ describe("Container tests", () => {
         const resolver = {
             fetch: (query: string, vars?: any, subscriptionId?: any) => {
                 sid = subscriptionId;
+                if (vars.t1 !== "x") {
+                    return Promise.reject("Invalid vars");
+                }
                 return Promise.resolve({
                     viewer: {
                         model1: {
@@ -53,7 +56,7 @@ describe("Container tests", () => {
         const renderer = create(<Container
             client={relay}
             queries={{
-                a1: queryA1,
+                a1: { query: queryA1, vars: { t1: "x" } },
             }}
             component={A}
             a2="Hi, I am A2"

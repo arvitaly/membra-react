@@ -34,8 +34,8 @@ class Container extends React.Component {
     render() {
         return React.createElement(this.props.component, this.state.bindings);
     }
-    addQuery(queryName) {
-        this.props.client.live(this.props.queries[queryName]).then((qResult) => {
+    addQuery(queryName, vars) {
+        this.props.client.live(this.props.queries[queryName].query, this.props.queries[queryName].vars).then((qResult) => {
             if (this.isUnmounted) {
                 return;
             }
@@ -55,7 +55,7 @@ class Container extends React.Component {
                 if (this.isUnmounted) {
                     return;
                 }
-                this.addQuery(queryName);
+                this.addQuery(queryName, vars);
             }, 1000);
         });
     }
