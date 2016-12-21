@@ -1,6 +1,6 @@
 {
   "name": "relay-common-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Relay-Common react binding",
   "main": "index.js",
   "dependencies": {
