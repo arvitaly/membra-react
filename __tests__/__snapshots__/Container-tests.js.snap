@@ -1,0 +1,15 @@
+exports[`Container tests simple 1`] = `
+<div>
+  ViewerModel1Edge0NodeField1Value
+   
+  Hi, I am A2
+</div>
+`;
+
+exports[`Container tests simple 2`] = `
+<div>
+  ViewerModel1Edge0NodeField1Value2
+   
+  Hi, I am A2
+</div>
+`;

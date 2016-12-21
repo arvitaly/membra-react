@@ -1,0 +1,39 @@
+{
+  "name": "relay-common-react",
+  "version": "0.0.0",
+  "description": "Relay-Common react binding",
+  "main": "index.js",
+  "dependencies": {
+    "@types/react": "^0.14.55",
+    "@types/react-test-renderer": "^15.4.0",
+    "react": "^15.4.1",
+    "react-test-renderer": "^15.4.1",
+    "relay-common": "^0.0.12"
+  },
+  "devDependencies": {
+    "@types/graphql-relay": "^0.4.0",
+    "@types/jest": "^16.0.2",
+    "coveralls": "^2.11.15",
+    "graphql-relay": "^0.4.4",
+    "jest": "^18.0.0",
+    "tslint": "^4.1.1",
+    "typescript": "^2.1.4"
+  },
+  "scripts": {
+    "test": "tsc && tslint --project=tsconfig.json && jest --verbose --coverage",
+    "watch:test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvitaly/relay-common-react.git"
+  },
+  "author": "arvitaly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arvitaly/relay-common-react/issues"
+  },
+  "homepage": "https://github.com/arvitaly/relay-common-react#readme",
+  "jest": {
+    "automock": false
+  }
+}
