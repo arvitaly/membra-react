@@ -8,7 +8,7 @@
     "@types/react-test-renderer": "^15.4.0",
     "react": "^15.4.1",
     "react-test-renderer": "^15.4.1",
-    "relay-common": "^0.0.12"
+    "relay-common": "^0.0.13"
   },
   "devDependencies": {
     "@types/graphql-relay": "^0.4.0",

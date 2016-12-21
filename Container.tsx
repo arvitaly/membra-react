@@ -1,9 +1,9 @@
 import React = require("react");
-import { IQuery, IQueryResult, Relay } from "relay-common";
+import { IQuery, IQueryResult, IRelayClient } from "relay-common";
 export interface IProps {
     queries: { [index: string]: IQuery };
     component: React.ComponentClass<any>;
-    client: Relay;
+    client: IRelayClient;
     [index: string]: any;
 }
 interface IState {
