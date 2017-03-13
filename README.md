@@ -1,5 +1,7 @@
 # relay-common-react
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/arvitaly/relay-common-react.svg)](https://greenkeeper.io/)
+
 Relay-Common react binding
 
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
