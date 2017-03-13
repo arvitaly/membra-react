@@ -4,7 +4,7 @@
   "description": "Relay-Common react binding",
   "main": "index.js",
   "dependencies": {
-    "@types/react": "^0.14.55",
+    "@types/react": "^15.0.16",
     "@types/react-test-renderer": "^15.4.0",
     "react": "^15.4.1",
     "react-test-renderer": "^15.4.1",
@@ -12,10 +12,10 @@
   },
   "devDependencies": {
     "@types/graphql-relay": "^0.4.0",
-    "@types/jest": "^16.0.2",
+    "@types/jest": "^19.2.1",
     "coveralls": "^2.11.15",
-    "graphql-relay": "^0.4.4",
-    "jest": "^18.0.0",
+    "graphql-relay": "^0.5.1",
+    "jest": "^19.0.2",
     "tslint": "^4.1.1",
     "typescript": "^2.1.4"
   },
