@@ -53,13 +53,16 @@ describe("Container tests", () => {
                 }
             }`;
         const relay = new Relay(resolver);
-        const renderer = create(<Container
+        const container = <Container
             client={relay}
             query={queryA1}
             vars={{ t1: "x" }}
-            component={A}
+            renderFetched={(data: any) => {
+                return <A {...data} />;
+            }}
             a2="Hi, I am A2"
-        />);
+        />;
+        const renderer = create(container);
         await new Promise((resolve) => setTimeout(resolve, 100));
         expect(renderer.toJSON()).toMatchSnapshot();
         relay.updateNode(sid, id1, {

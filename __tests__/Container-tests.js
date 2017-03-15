@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -65,7 +73,10 @@ describe("Container tests", () => {
                 }
             }`;
         const relay = new relay_common_1.Relay(resolver);
-        const renderer = react_test_renderer_1.create(React.createElement(Container_1.default, { client: relay, query: queryA1, vars: { t1: "x" }, component: A, a2: "Hi, I am A2" }));
+        const container = React.createElement(Container_1.default, { client: relay, query: queryA1, vars: { t1: "x" }, renderFetched: (data) => {
+                return React.createElement(A, __assign({}, data));
+            }, a2: "Hi, I am A2" });
+        const renderer = react_test_renderer_1.create(container);
         yield new Promise((resolve) => setTimeout(resolve, 100));
         expect(renderer.toJSON()).toMatchSnapshot();
         relay.updateNode(sid, id1, {

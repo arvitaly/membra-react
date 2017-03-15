@@ -1,9 +1,10 @@
 import React = require("react");
 import { IQuery, IQueryResult, IRelayClient } from "relay-common";
+type renderFn = (data: any) => JSX.Element | null;
 export interface IProps {
     query: IQuery;
     vars?: any;
-    component: React.ComponentClass<any>;
+    renderFetched: renderFn;
     client: IRelayClient;
     [index: string]: any;
 }
@@ -37,7 +38,7 @@ export default class Container extends React.Component<IProps, IState> {
         this.removeQuery();
     }
     public render() {
-        return React.createElement(this.props.component, this.state.bindings);
+        return this.props.renderFetched(this.state.bindings);
     }
     protected addQuery() {
         this.props.client.live(

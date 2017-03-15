@@ -28,7 +28,7 @@ class Container extends React.Component {
         this.removeQuery();
     }
     render() {
-        return React.createElement(this.props.component, this.state.bindings);
+        return this.props.renderFetched(this.state.bindings);
     }
     addQuery() {
         this.props.client.live(this.props.query, this.props.vars).then((qResult) => {
