@@ -6,7 +6,7 @@ import schema from "./../__fixtures__/schema";
 import Container from "./../Container";
 class A extends React.Component<any, any> {
     public render() {
-        return <div>{this.props.a1 ? this.props.a1.viewer.model1.edges[0].node.field1 : ""} {this.props.a2}</div>;
+        return <div>{this.props.viewer ? this.props.viewer.model1.edges[0].node.field1 : ""} {this.props.a2}</div>;
     }
 }
 describe("Container tests", () => {
@@ -55,12 +55,11 @@ describe("Container tests", () => {
         const relay = new Relay(resolver);
         const renderer = create(<Container
             client={relay}
-            queries={{
-                a1: { query: queryA1, vars: { t1: "x" } },
-            }}
+            query={queryA1}
+            vars={{ t1: "x" }}
             component={A}
             a2="Hi, I am A2"
-            />);
+        />);
         await new Promise((resolve) => setTimeout(resolve, 100));
         expect(renderer.toJSON()).toMatchSnapshot();
         relay.updateNode(sid, id1, {

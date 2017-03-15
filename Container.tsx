@@ -1,7 +1,8 @@
 import React = require("react");
 import { IQuery, IQueryResult, IRelayClient } from "relay-common";
 export interface IProps {
-    queries: { [index: string]: { query: IQuery, vars?: any } };
+    query: IQuery;
+    vars?: any;
     component: React.ComponentClass<any>;
     client: IRelayClient;
     [index: string]: any;
@@ -11,7 +12,7 @@ interface IState {
 }
 type Bindings = { [index: string]: any };
 export default class Container extends React.Component<IProps, IState> {
-    protected queries: { [index: string]: IQueryResult } = {};
+    protected query: IQueryResult;
     protected isUnmounted = false;
     public componentWillMount() {
         let bindings: Bindings = {};
@@ -19,42 +20,41 @@ export default class Container extends React.Component<IProps, IState> {
             switch (propName) {
                 case "client":
                 case "component":
-                case "queries":
+                case "query":
+                case "vars":
                     break;
                 default:
                     bindings[propName] = this.props[propName];
             }
         });
-        Object.keys(this.props.queries).map((queryName) => {
-            this.addQuery(queryName);
-        });
+        this.addQuery();
         this.setState({
             bindings,
         });
     }
     public componentWillUnmount() {
         this.isUnmounted = true;
-        Object.keys(this.props.queries).map((queryName) => {
-            this.removeQuery(queryName);
-        });
+        this.removeQuery();
     }
     public render() {
         return React.createElement(this.props.component, this.state.bindings);
     }
-    protected addQuery(queryName: string, vars?: any) {
+    protected addQuery() {
         this.props.client.live(
-            this.props.queries[queryName].query,
-            this.props.queries[queryName].vars).then((qResult) => {
+            this.props.query,
+            this.props.vars).then((qResult) => {
                 if (this.isUnmounted) {
                     return;
                 }
-                this.queries[queryName] = qResult;
-                this.queries[queryName].onemitter.on((data: any) => {
+                this.query = qResult;
+                this.query.onemitter.on((data: any) => {
                     if (this.isUnmounted) {
                         return;
                     }
                     this.setState((state) => {
-                        state.bindings[queryName] = data;
+                        Object.keys(data).map((k) => {
+                            state.bindings[k] = data[k];
+                        });
                         return state;
                     });
                 });
@@ -64,13 +64,13 @@ export default class Container extends React.Component<IProps, IState> {
                     if (this.isUnmounted) {
                         return;
                     }
-                    this.addQuery(queryName, vars);
+                    this.addQuery();
                 }, 1000);
             });
     }
-    protected removeQuery(queryName: string) {
-        if (this.queries[queryName]) {
-            this.queries[queryName].remove();
+    protected removeQuery() {
+        if (this.query) {
+            this.query.remove();
         }
     }
 }

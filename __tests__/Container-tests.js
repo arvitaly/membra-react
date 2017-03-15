@@ -16,7 +16,7 @@ const Container_1 = require("./../Container");
 class A extends React.Component {
     render() {
         return React.createElement("div", null,
-            this.props.a1 ? this.props.a1.viewer.model1.edges[0].node.field1 : "",
+            this.props.viewer ? this.props.viewer.model1.edges[0].node.field1 : "",
             " ",
             this.props.a2);
     }
@@ -65,9 +65,7 @@ describe("Container tests", () => {
                 }
             }`;
         const relay = new relay_common_1.Relay(resolver);
-        const renderer = react_test_renderer_1.create(React.createElement(Container_1.default, { client: relay, queries: {
-                a1: { query: queryA1, vars: { t1: "x" } },
-            }, component: A, a2: "Hi, I am A2" }));
+        const renderer = react_test_renderer_1.create(React.createElement(Container_1.default, { client: relay, query: queryA1, vars: { t1: "x" }, component: A, a2: "Hi, I am A2" }));
         yield new Promise((resolve) => setTimeout(resolve, 100));
         expect(renderer.toJSON()).toMatchSnapshot();
         relay.updateNode(sid, id1, {

@@ -3,7 +3,6 @@ const React = require("react");
 class Container extends React.Component {
     constructor() {
         super(...arguments);
-        this.queries = {};
         this.isUnmounted = false;
     }
     componentWillMount() {
@@ -12,40 +11,39 @@ class Container extends React.Component {
             switch (propName) {
                 case "client":
                 case "component":
-                case "queries":
+                case "query":
+                case "vars":
                     break;
                 default:
                     bindings[propName] = this.props[propName];
             }
         });
-        Object.keys(this.props.queries).map((queryName) => {
-            this.addQuery(queryName);
-        });
+        this.addQuery();
         this.setState({
             bindings,
         });
     }
     componentWillUnmount() {
         this.isUnmounted = true;
-        Object.keys(this.props.queries).map((queryName) => {
-            this.removeQuery(queryName);
-        });
+        this.removeQuery();
     }
     render() {
         return React.createElement(this.props.component, this.state.bindings);
     }
-    addQuery(queryName, vars) {
-        this.props.client.live(this.props.queries[queryName].query, this.props.queries[queryName].vars).then((qResult) => {
+    addQuery() {
+        this.props.client.live(this.props.query, this.props.vars).then((qResult) => {
             if (this.isUnmounted) {
                 return;
             }
-            this.queries[queryName] = qResult;
-            this.queries[queryName].onemitter.on((data) => {
+            this.query = qResult;
+            this.query.onemitter.on((data) => {
                 if (this.isUnmounted) {
                     return;
                 }
                 this.setState((state) => {
-                    state.bindings[queryName] = data;
+                    Object.keys(data).map((k) => {
+                        state.bindings[k] = data[k];
+                    });
                     return state;
                 });
             });
@@ -55,13 +53,13 @@ class Container extends React.Component {
                 if (this.isUnmounted) {
                     return;
                 }
-                this.addQuery(queryName, vars);
+                this.addQuery();
             }, 1000);
         });
     }
-    removeQuery(queryName) {
-        if (this.queries[queryName]) {
-            this.queries[queryName].remove();
+    removeQuery() {
+        if (this.query) {
+            this.query.remove();
         }
     }
 }
