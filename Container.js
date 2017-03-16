@@ -18,10 +18,14 @@ class Container extends React.Component {
                     bindings[propName] = this.props[propName];
             }
         });
-        this.addQuery();
+        this.addQuery(this.props.vars);
         this.setState({
             bindings,
         });
+    }
+    componentWillReceiveProps(nextProps) {
+        this.removeQuery();
+        this.addQuery(nextProps.vars);
     }
     componentWillUnmount() {
         this.isUnmounted = true;
@@ -30,8 +34,8 @@ class Container extends React.Component {
     render() {
         return this.props.renderFetched(this.state.bindings);
     }
-    addQuery() {
-        this.props.client.live(this.props.query, this.props.vars).then((qResult) => {
+    addQuery(vars) {
+        this.props.client.live(this.props.query, vars).then((qResult) => {
             if (this.isUnmounted) {
                 return;
             }
@@ -53,7 +57,7 @@ class Container extends React.Component {
                 if (this.isUnmounted) {
                     return;
                 }
-                this.addQuery();
+                this.addQuery(this.props.vars);
             }, 1000);
         });
     }

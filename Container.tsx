@@ -28,10 +28,14 @@ export default class Container extends React.Component<IProps, IState> {
                     bindings[propName] = this.props[propName];
             }
         });
-        this.addQuery();
+        this.addQuery(this.props.vars);
         this.setState({
             bindings,
         });
+    }
+    public componentWillReceiveProps(nextProps: any) {
+        this.removeQuery();
+        this.addQuery(nextProps.vars);
     }
     public componentWillUnmount() {
         this.isUnmounted = true;
@@ -40,10 +44,10 @@ export default class Container extends React.Component<IProps, IState> {
     public render() {
         return this.props.renderFetched(this.state.bindings);
     }
-    protected addQuery() {
+    protected addQuery(vars: any) {
         this.props.client.live(
             this.props.query,
-            this.props.vars).then((qResult) => {
+            vars).then((qResult) => {
                 if (this.isUnmounted) {
                     return;
                 }
@@ -65,7 +69,7 @@ export default class Container extends React.Component<IProps, IState> {
                     if (this.isUnmounted) {
                         return;
                     }
-                    this.addQuery();
+                    this.addQuery(this.props.vars);
                 }, 1000);
             });
     }
