@@ -44,7 +44,7 @@ For usage we need GraphQL-client, who implements membra-interface and query-pars
         vars={{id: "1"}}
         client={client}
         renderFetched={(data)=>{
-            
+            return <h1>Name: {data.node.name}</h1>;
         }}
     />
 
