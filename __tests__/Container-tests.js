@@ -1,24 +1,17 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const graphql_relay_1 = require("graphql-relay");
+const membra_1 = require("membra");
 const react_test_renderer_1 = require("react-test-renderer");
-const relay_common_1 = require("relay-common");
 const schema_1 = require("./../__fixtures__/schema");
 const Container_1 = require("./../Container");
 class A extends React.Component {
@@ -55,9 +48,9 @@ describe("Container tests", () => {
                     },
                 });
             },
-            unsubscribe: () => { return Promise.resolve(); },
+            unsubscribe: () => Promise.resolve(),
         };
-        const parser = new relay_common_1.QueryParser(schema_1.default);
+        const parser = new membra_1.QueryParser(schema_1.default);
         const queryA1 = parser.parse `query Q1{
                 viewer{
                     model1{
@@ -72,14 +65,14 @@ describe("Container tests", () => {
                     }
                 }
             }`;
-        const relay = new relay_common_1.Relay(resolver);
-        const container = React.createElement(Container_1.default, { client: relay, query: queryA1, vars: { t1: "x" }, renderFetched: (data) => {
-                return React.createElement(A, __assign({}, data));
+        const membra = new membra_1.Membra(resolver);
+        const container = React.createElement(Container_1.default, { client: membra, query: queryA1, vars: { t1: "x" }, renderFetched: (data) => {
+                return React.createElement(A, Object.assign({}, data));
             }, a2: "Hi, I am A2" });
         const renderer = react_test_renderer_1.create(container);
         yield new Promise((resolve) => setTimeout(resolve, 100));
         expect(renderer.toJSON()).toMatchSnapshot();
-        relay.updateNode(sid, id1, {
+        membra.updateNode(sid, id1, {
             field1: "ViewerModel1Edge0NodeField1Value2",
         });
         yield new Promise((resolve) => setTimeout(resolve, 100));

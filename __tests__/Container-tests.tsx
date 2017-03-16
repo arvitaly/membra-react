@@ -1,7 +1,7 @@
 import React = require("react");
 import { toGlobalId } from "graphql-relay";
+import { Membra, QueryParser } from "membra";
 import { create } from "react-test-renderer";
-import { QueryParser, Relay } from "relay-common";
 import schema from "./../__fixtures__/schema";
 import Container from "./../Container";
 class A extends React.Component<any, any> {
@@ -35,7 +35,7 @@ describe("Container tests", () => {
                     },
                 });
             },
-            unsubscribe: () => { return Promise.resolve(); },
+            unsubscribe: () => Promise.resolve(),
         };
         const parser = new QueryParser(schema);
         const queryA1 = parser.parse`query Q1{
@@ -52,9 +52,9 @@ describe("Container tests", () => {
                     }
                 }
             }`;
-        const relay = new Relay(resolver);
+        const membra = new Membra(resolver);
         const container = <Container
-            client={relay}
+            client={membra}
             query={queryA1}
             vars={{ t1: "x" }}
             renderFetched={(data: any) => {
@@ -65,7 +65,7 @@ describe("Container tests", () => {
         const renderer = create(container);
         await new Promise((resolve) => setTimeout(resolve, 100));
         expect(renderer.toJSON()).toMatchSnapshot();
-        relay.updateNode(sid, id1, {
+        membra.updateNode(sid, id1, {
             field1: "ViewerModel1Edge0NodeField1Value2",
         });
         await new Promise((resolve) => setTimeout(resolve, 100));

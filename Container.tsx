@@ -1,22 +1,22 @@
 import React = require("react");
-import { IQuery, IQueryResult, IRelayClient } from "relay-common";
+import { IMembraClient, IQuery, IQueryResult } from "membra";
 type renderFn = (data: any) => JSX.Element | null;
 export interface IProps {
     query: IQuery;
     vars?: any;
     renderFetched: renderFn;
-    client: IRelayClient;
+    client: IMembraClient;
     [index: string]: any;
 }
 interface IState {
-    bindings: Bindings;
+    bindings: IBindings;
 }
-type Bindings = { [index: string]: any };
+interface IBindings { [index: string]: any; };
 export default class Container extends React.Component<IProps, IState> {
     protected query: IQueryResult;
     protected isUnmounted = false;
     public componentWillMount() {
-        let bindings: Bindings = {};
+        const bindings: IBindings = {};
         Object.keys(this.props).map((propName) => {
             switch (propName) {
                 case "client":

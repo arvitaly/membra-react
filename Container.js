@@ -1,12 +1,14 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
+;
 class Container extends React.Component {
     constructor() {
         super(...arguments);
         this.isUnmounted = false;
     }
     componentWillMount() {
-        let bindings = {};
+        const bindings = {};
         Object.keys(this.props).map((propName) => {
             switch (propName) {
                 case "client":
@@ -67,5 +69,4 @@ class Container extends React.Component {
         }
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Container;
