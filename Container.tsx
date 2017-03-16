@@ -1,10 +1,10 @@
 import React = require("react");
 import { IMembraClient, IQuery, IQueryResult } from "membra";
-type renderFn = (data: any) => JSX.Element | null;
-export interface IProps {
-    query: IQuery;
+type renderFn<T> = (data: T) => JSX.Element | null;
+export interface IProps<T> {
+    query: IQuery<T>;
     vars?: any;
-    renderFetched: renderFn;
+    renderFetched: renderFn<T>;
     client: IMembraClient;
     [index: string]: any;
 }
@@ -12,8 +12,8 @@ interface IState {
     bindings: IBindings;
 }
 interface IBindings { [index: string]: any; };
-export default class Container extends React.Component<IProps, IState> {
-    protected query: IQueryResult;
+export default class Container extends React.Component<IProps<any>, IState> {
+    protected query: IQueryResult<any>;
     protected isUnmounted = false;
     public componentWillMount() {
         const bindings: IBindings = {};

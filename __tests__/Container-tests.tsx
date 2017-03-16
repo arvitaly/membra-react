@@ -1,6 +1,6 @@
 import React = require("react");
 import { toGlobalId } from "graphql-relay";
-import { Membra, QueryParser } from "membra";
+import { IQuery, Membra, QueryParser } from "membra";
 import { create } from "react-test-renderer";
 import schema from "./../__fixtures__/schema";
 import Container from "./../Container";
@@ -57,7 +57,7 @@ describe("Container tests", () => {
             client={membra}
             query={queryA1}
             vars={{ t1: "x" }}
-            renderFetched={(data: any) => {
+            renderFetched={(data) => {
                 return <A {...data} />;
             }}
             a2="Hi, I am A2"
