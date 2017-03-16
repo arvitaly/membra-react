@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 ;
 class Container extends React.Component {
@@ -26,8 +25,24 @@ class Container extends React.Component {
         });
     }
     componentWillReceiveProps(nextProps) {
-        this.removeQuery();
-        this.addQuery(nextProps.vars);
+        let isChanged = false;
+        if (nextProps.vars === this.props.vars) {
+            return;
+        }
+        if (!this.props.vars && nextProps.vars || this.props.vars && !nextProps.vars) {
+            isChanged = true;
+        }
+        else {
+            Object.keys(nextProps.vars).map((varName) => {
+                if (this.props.vars[varName] !== nextProps.vars[varName]) {
+                    isChanged = true;
+                }
+            });
+        }
+        if (isChanged) {
+            this.removeQuery();
+            this.addQuery(nextProps.vars);
+        }
     }
     componentWillUnmount() {
         this.isUnmounted = true;
@@ -69,4 +84,5 @@ class Container extends React.Component {
         }
     }
 }
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Container;

@@ -33,9 +33,24 @@ export default class Container extends React.Component<IProps<any>, IState> {
             bindings,
         });
     }
-    public componentWillReceiveProps(nextProps: any) {
-        this.removeQuery();
-        this.addQuery(nextProps.vars);
+    public componentWillReceiveProps(nextProps: IProps<any>) {
+        let isChanged = false;
+        if (nextProps.vars === this.props.vars) {
+            return;
+        }
+        if (!this.props.vars && nextProps.vars || this.props.vars && !nextProps.vars) {
+            isChanged = true;
+        } else {
+            Object.keys(nextProps.vars).map((varName) => {
+                if (this.props.vars[varName] !== nextProps.vars[varName]) {
+                    isChanged = true;
+                }
+            });
+        }
+        if (isChanged) {
+            this.removeQuery();
+            this.addQuery(nextProps.vars);
+        }
     }
     public componentWillUnmount() {
         this.isUnmounted = true;
